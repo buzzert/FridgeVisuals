@@ -44,7 +44,11 @@ int main(int argc, char **argv)
     MainScene mainScene(canvasRect, windowed);
 
     bool running = true;
+    const int kTicksPerFrame = 1000 / 60;
+
     while (running) {
+        Uint32 startTime = SDL_GetTicks();
+
         SDL_Event e;
         while ( SDL_PollEvent( &e ) != 0 ) {
             if (e.type == SDL_QUIT) {
@@ -54,6 +58,11 @@ int main(int argc, char **argv)
 
         mainScene.Update();
         mainScene.Render();
+
+        Uint32 ticks = SDL_GetTicks() - startTime;
+        if (ticks < kTicksPerFrame) {
+            SDL_Delay(kTicksPerFrame - ticks);
+        }
     }
 
     return 0;
