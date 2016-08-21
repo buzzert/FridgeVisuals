@@ -12,7 +12,7 @@ typedef std::chrono::high_resolution_clock::time_point update_time;
 class MainScene
 {
 public:
-    MainScene(Rect canvasRect);
+    MainScene(Rect canvasRect, bool windowed);
     ~MainScene();
 
     void Update();

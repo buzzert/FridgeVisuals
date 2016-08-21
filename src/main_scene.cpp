@@ -10,10 +10,12 @@ using namespace std;
 
 typedef shared_ptr<Actor> actor_ptr;
 
-MainScene::MainScene(Rect canvasRect)
+MainScene::MainScene(Rect canvasRect, bool windowed)
     : _canvasRect(canvasRect)
 {
-    _window = SDL_CreateWindow("Cosmo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, canvasRect.width, canvasRect.height, SDL_WINDOW_SHOWN);
+    int flags = windowed ? SDL_WINDOW_SHOWN : SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+    _window = SDL_CreateWindow("Cosmo", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, canvasRect.width, canvasRect.height, flags);
     if (_window) {
         _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     }
