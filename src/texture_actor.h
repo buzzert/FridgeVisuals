@@ -4,6 +4,7 @@
 #include "actor.h"
 
 #include <string>
+#include <memory>
 
 std::shared_ptr<SDL_Texture> TextureForRes(std::string const &resourceName, SDL_Renderer *renderer);
 

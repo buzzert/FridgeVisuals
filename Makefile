@@ -16,7 +16,7 @@ SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -std=c++11 -g $(DEFINES) # -Wall
-LIB := -lm -lstdc++ -std=c++11 -lpthread -lSDL2 -lsdl2_image
+LIB := -lm -lstdc++ -std=c++11 -lpthread -lSDL2 -lSDL2_image
 
 # ImageMagick
 MAGICK_CXXFLAGS=`GraphicsMagick++-config --cppflags --cxxflags`

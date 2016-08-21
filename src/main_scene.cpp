@@ -5,10 +5,20 @@
 
 #include <iostream>
 #include <sstream>
+#include <random>
 
 using namespace std;
 
 typedef shared_ptr<Actor> actor_ptr;
+
+static int uniform_random(int low, int high)
+{
+    static random_device rd;
+    static mt19937 gen(rd());
+
+    uniform_int_distribution<int> dis(low, high);
+    return dis(gen);
+}
 
 MainScene::MainScene(Rect canvasRect, bool windowed)
     : _canvasRect(canvasRect)
@@ -35,6 +45,9 @@ MainScene::MainScene(Rect canvasRect, bool windowed)
     for (string texture : textures) {
         _textureCache[texture] = TextureForRes(texture, _renderer);
     }
+
+    _lastSparkleUpdate = chrono::high_resolution_clock::now();
+    _lastFireworkUpdate = chrono::high_resolution_clock::now();
 }
 
 MainScene::~MainScene()
@@ -63,19 +76,19 @@ void MainScene::_CreateFirework()
 {
     auto sinceLastUpdate = since(_lastFireworkUpdate);
 
-    if ( sinceLastUpdate.count() > (500 + (arc4random() % 3800)) ) {
+    if ( sinceLastUpdate.count() > uniform_random(500, 3800) ) {
         _lastFireworkUpdate = chrono::high_resolution_clock::now();
 
         const float kWidthMargin = 125.0;
         const float kHeightMargin = 240.0;
 
-        int fireworkKind = 1 + arc4random_uniform(3);
+        int fireworkKind = uniform_random(1, 3);
         char *fireworkName = (char *)malloc(strlen("fireworkN.png"));
         sprintf(fireworkName, "firework%d.png", fireworkKind);
 
         actor_ptr firework(new TextureActor(_textureCache[fireworkName]));
-        firework->rect.x = -kWidthMargin + (arc4random() % (_canvasRect.width + (int)kWidthMargin / 2));
-        firework->rect.y = -kHeightMargin + (arc4random() % (_canvasRect.height + (int)kHeightMargin / 2));
+        firework->rect.x = -kWidthMargin + uniform_random(0, _canvasRect.width + (int)kWidthMargin / 2);
+        firework->rect.y = -kHeightMargin + uniform_random(0, _canvasRect.height + (int)kHeightMargin / 2);
 
         _fireworks.push_back(firework);
     }
@@ -85,13 +98,13 @@ void MainScene::_CreateSparkle()
 {
     auto sinceLastUpdate = since(_lastSparkleUpdate);
 
-    if ( sinceLastUpdate.count() > (50 + (arc4random() % 400) ) ) {
+    if ( sinceLastUpdate.count() > uniform_random(50, 400) ) {
         _lastSparkleUpdate = chrono::high_resolution_clock::now();
 
-        bool reversed = (arc4random_uniform(2) == 0);
-        const float yPosition = -10.0 + (arc4random() % _canvasRect.height);
+        bool reversed = (uniform_random(0, 1) == 0);
+        const float yPosition = uniform_random(-10, _canvasRect.height);
 
-        int sparkleKind = 1 + arc4random_uniform(4);
+        int sparkleKind = uniform_random(1, 4);
         char sparkleName[] = "sparkleN.png";
         sprintf(sparkleName, "sparkle%d.png", sparkleKind);
 
@@ -99,13 +112,13 @@ void MainScene::_CreateSparkle()
 
         if (sparkleKind == 1 || sparkleKind == 2) {
             sparkle->rect.y = _canvasRect.height;
-            sparkle->velocity.y = -1 * (float)(arc4random_uniform(100)) / 100;
-            sparkle->rect.x = arc4random_uniform(_canvasRect.width);
+            sparkle->velocity.y = -1 * (float)(uniform_random(10, 100)) / 100;
+            sparkle->rect.x = uniform_random(0, _canvasRect.width);
         } else {
             sparkle->rect.x = reversed ? _canvasRect.width : 0;
             sparkle->rect.y = yPosition;
-            sparkle->velocity.x = (reversed ? -1 : 1) * (float)(50 + (int)arc4random_uniform(100)) / 100;
-            sparkle->velocity.y = (float)(-50 + (int)arc4random_uniform(150)) / 100;
+            sparkle->velocity.x = (reversed ? -1 : 1) * (float)uniform_random(50, 100) / 100;
+            sparkle->velocity.y = (float)uniform_random(-50, 150) / 100;
         }
 
         _sparkles.push_back(sparkle);

@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <chrono>
+#include <memory>
 
 typedef std::chrono::high_resolution_clock::time_point update_time;
 
