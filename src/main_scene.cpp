@@ -83,7 +83,7 @@ void MainScene::_CreateFirework()
         const float kHeightMargin = 240.0;
 
         int fireworkKind = uniform_random(1, 3);
-        char *fireworkName = (char *)malloc(strlen("fireworkN.png"));
+        char fireworkName[] = "fireworkN.png";
         sprintf(fireworkName, "firework%d.png", fireworkKind);
 
         actor_ptr firework(new TextureActor(_textureCache[fireworkName]));
