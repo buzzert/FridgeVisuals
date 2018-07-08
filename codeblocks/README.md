@@ -1,25 +1,18 @@
-# Fridge Visuals
-This is a collection of visualizations for the ten LED panels attached to the refrigerator at XION arcade.
+# Codeblocks FridgeVisual
+This was inspired by an art installation somewhere in Sydney, Australia. Random(?) blocks of what appears to be code floats by with an occasional flash of the rainbow. 
 
-![fridge photo](http://i.imgur.com/DC01Vc5.jpg)
-
-## Visuals
-### Cosmopolitan
-Inspired by some of the LED displays at The Cosmopolitan casino in Las Vegas. Sparkles and shards float up toward the top, bright flashes occasionally. Procedurally generated and random, guaranteed to be unique every time!
-
-[![YouTube Video](http://i.imgur.com/zRMEk3E.png)](https://youtu.be/IaKTFLCGNXU "Click to watch on YouTube")
-
+![codeblocks_img](../screenshots/codeblocks.jpeg)
 
 ## Details
+This is my first time using [Processing](https://processing.org/). Quite fun, but I'm only just scratching the potential of it here.
+
 ### Building
-Requires SDL2 and GraphicsMagick++. Simply run `make` to build.
+You can build this with the horrible Processing GUI if you want. But the better way in my opinion is from the command line via `processing-java`:
 
-### Running
-Each individual visualization will be built in `bin`. To run it, specify a canvas width and height, optionally pass `-w` to run in windowed mode.
+    processing-java --force --sketch=../codeblocks --output=out --run
 
-	usage: [visualization] width height [-w]
-	    -w : windowed mode
-	    
+and if you want to build a "portable" executable:
 
-### Development
-Currently this project includes a really basic 2D graphics engine. There are scenes, scene nodes, and scene objects (actors). Read more about this paradigm [here](https://cs.senecac.on.ca/~gam531/?q=node/31). 
+    processing-java --sketch=../codeblocks --export
+
+

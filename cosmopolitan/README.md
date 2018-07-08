@@ -1,14 +1,9 @@
-# Fridge Visuals
-This is a collection of visualizations for the ten LED panels attached to the refrigerator at XION arcade.
+# Cosmopolitan FridgeVisual 
+![fridge photo](screenshots/cosmopolitan.jpg)
 
-![fridge photo](http://i.imgur.com/DC01Vc5.jpg)
-
-## Visuals
-### Cosmopolitan
 Inspired by some of the LED displays at The Cosmopolitan casino in Las Vegas. Sparkles and shards float up toward the top, bright flashes occasionally. Procedurally generated and random, guaranteed to be unique every time!
 
 [![YouTube Video](http://i.imgur.com/zRMEk3E.png)](https://youtu.be/IaKTFLCGNXU "Click to watch on YouTube")
-
 
 ## Details
 ### Building
@@ -19,7 +14,6 @@ Each individual visualization will be built in `bin`. To run it, specify a canva
 
 	usage: [visualization] width height [-w]
 	    -w : windowed mode
-	    
 
 ### Development
 Currently this project includes a really basic 2D graphics engine. There are scenes, scene nodes, and scene objects (actors). Read more about this paradigm [here](https://cs.senecac.on.ca/~gam531/?q=node/31). 
