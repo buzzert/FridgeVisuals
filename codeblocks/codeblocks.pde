@@ -38,6 +38,8 @@ void populateTextLayers() {
 
     int lineNumber = 0;
     final float layerHeight = 11.0;
+
+    // Continuously fill up the height of the screen with text layers
     while (yPosition < viewportWidth) {
         ArrayList<TextLayer> currentLine;
         if (lineNumber > (textLayerLines.size() - 1)) {
@@ -45,28 +47,36 @@ void populateTextLayers() {
             textLayerLines.add(currentLine);
         } else {
             currentLine = textLayerLines.get(lineNumber);
+
+            // Also if there is an existing set of TextLayers for this line, set the local
+            // xPosition to whatever the right-most edge is of the last text layer on this line
+            // so we continue to add new layers at the end of the scrolling direction.
             TextLayer lastTextLayer = currentLine.get(currentLine.size() - 1);
             xPosition = lastTextLayer.pos.x + lastTextLayer.getWidth();
         }
 
+        // Continuously fill up the width of the screen
         while (xPosition < viewportHeight) {
             String randomString = randomString();
             TextLayer t = new TextLayer(new Position(xPosition, yPosition), randomString, font, 24.0);
             t.layerHeight = layerHeight;
             currentLine.add(t);
 
+            // Some random layers will get a background by default
             boolean hasBackground = rand.nextBoolean();
             if (hasBackground) {
                 t.backgroundColor = new Color(255, 255, 255, 255);
                 t.foregroundColor = new Color(0, 0, 0, 255);
             }
 
+            // Some random layers will flash
             boolean flashes = rand.nextBoolean();
-            flashes &= rand.nextBoolean();
+            flashes &= rand.nextBoolean(); // 2x as unlikely
             if (flashes) {
                 t.flashDuration = 0.4 + (rand.nextFloat() % 3.0);
             }
 
+            // If string is "XION", set bg to our signature blue color ;)
             if (randomString == "XION") {
                 t.backgroundColor = new Color(0, 169, 255, 255);
                 t.foregroundColor = new Color(0, 0, 0, 255);
@@ -177,6 +187,19 @@ void updateTextLayers() {
     }
 }
 
+void setViewportTransform() {
+    // Convoluted way of getting the viewport on the top left corner.
+    // Need to research a better way to do this, since it seems `camera` doesn't work in fullscreen.
+
+    // Rotate about origin
+    translate(width/2, height/2);
+    rotate(PI/2);
+
+    // Translate viewport from the center to the top left of the screen, because that's where the
+    // visible framebuffer begins on our LED panels
+    translate(-height/2, (width / 2) - viewportWidth); // -100/2 + 100 - v
+}
+
 void setup() {
     fullScreen(P3D);
     noSmooth(); // disable anti-aliasing
@@ -208,16 +231,9 @@ void setup() {
 
 void draw() {
     background(0);
-    fill(255);
 
+    setViewportTransform();
     populateTextLayers();
-    
-    // Convoluted way of getting the viewport on the top left corner.
-    // Need to research a better way to do this, since it seems `camera` doesn't work in fullscreen.
-    translate(width/2, height/2);
-    rotate(PI/2);
-    translate(-height/2, -width/2);
-    translate(0.0, width - viewportWidth);
     
     for (ArrayList<TextLayer> line : textLayerLines) {
         for (TextLayer layer : line) {
