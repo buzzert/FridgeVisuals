@@ -1,5 +1,5 @@
 # Cosmopolitan FridgeVisual 
-![fridge photo](screenshots/cosmopolitan.jpg)
+![fridge photo](../screenshots/cosmopolitan.jpg)
 
 Inspired by some of the LED displays at The Cosmopolitan casino in Las Vegas. Sparkles and shards float up toward the top, bright flashes occasionally. Procedurally generated and random, guaranteed to be unique every time!
 
